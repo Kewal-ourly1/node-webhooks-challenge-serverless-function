@@ -34,7 +34,7 @@ export default async function handler(request, response) {
 
       console.log('Data forwarded successfully!');
     } catch (error) {
-      console.error(`Failed to forward data: ${error.message}`);
+      console.error(`Failed to forward data: ${error.status}, ${error.message}, ${error.statusText}`);
     }
 
     // Responding to Nylas is important to prevent the webhook from retrying
