@@ -1,5 +1,8 @@
 // You need to import axios
-import axios from 'axios';
+// import axios from 'axios';
+
+const axios = require('axios'); // for CommonJS
+
 
 export default async function handler(request, response) {
   
