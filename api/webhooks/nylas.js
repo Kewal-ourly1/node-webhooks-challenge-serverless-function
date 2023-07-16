@@ -1,5 +1,7 @@
-// example callback_url: https://node-webhooks-challenge-serverless-function.vercel.app/api/webhooks/nylas
-export default function handler(request, response) {
+// You need to import axios
+import axios from 'axios';
+
+export default async function handler(request, response) {
   
   // /api/webhooks/nylas?challenge={{CHALLENGE_STRING}}
   if (request.method === "GET" && request.query.challenge) {
@@ -10,12 +12,27 @@ export default function handler(request, response) {
     return response.send(request.query.challenge);
   }
 
- if (request.method === "POST") {
-   console.log('==========Message updated start==========');
-   request.body.deltas.map(deltas => console.log(JSON.stringify(deltas)));
-   console.log('==========Message updated end==========\n');
-   // Responding to Nylas is important to prevent the webhook from retrying
-   return response.status(200).end();
- }
+  if (request.method === "POST") {
+    // Get headers and body from the original request
+    const { body, headers } = request;
 
+    console.log('==========Message updated start==========');
+    request.body.deltas.map(deltas => console.log(JSON.stringify(deltas)));
+    console.log('==========Message updated end==========\n');
+
+    // Define the URL to forward the data to
+    const forwardUrl = 'https://ourly.io/version-test/api/1.1/wf/nylas_webhook';
+
+    try {
+      // Perform POST request to the forward URL
+      await axios.post(forwardUrl, body, { headers });
+
+      console.log('Data forwarded successfully!');
+    } catch (error) {
+      console.error(`Failed to forward data: ${error.message}`);
+    }
+
+    // Responding to Nylas is important to prevent the webhook from retrying
+    return response.status(200).end();
+  }
 }
