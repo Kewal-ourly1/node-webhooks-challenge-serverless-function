@@ -11,7 +11,13 @@ export default async function handler(request, response) {
 
   if (request.method === "POST") {
     // Get headers and body from the original request
-    const { body, headers } = request;
+    const { body } = request;
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+      // Add any other headers required by the API
+
 
     console.log('==========Message updated start==========');
     request.body.deltas.map(deltas => console.log(JSON.stringify(deltas)));
