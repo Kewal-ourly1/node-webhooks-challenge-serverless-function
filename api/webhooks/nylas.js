@@ -1,9 +1,3 @@
-// You need to import axios
-// import axios from 'axios';
-
-const axios = require('axios'); // for CommonJS
-
-
 export default async function handler(request, response) {
   
   // /api/webhooks/nylas?challenge={{CHALLENGE_STRING}}
@@ -28,7 +22,15 @@ export default async function handler(request, response) {
 
     try {
       // Perform POST request to the forward URL
-      await axios.post(forwardUrl, body, { headers });
+      const res = await fetch(forwardUrl, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
 
       console.log('Data forwarded successfully!');
     } catch (error) {
