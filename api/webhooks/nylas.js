@@ -24,7 +24,7 @@ export default async function handler(request, response) {
     console.log('==========Message updated end==========\n');
 
     // Define the URL to forward the data to
-    const forwardUrl = 'https://hello-temp.bubbleapps.io/version-test/api/1.1/wf/nylas_webhook/initialize';
+    const forwardUrl = 'https://hello-temp.bubbleapps.io/version-test/api/1.1/wf/nylas_webhook';
 
     try {
       // Perform POST request to the forward URL
